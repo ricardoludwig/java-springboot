@@ -1,0 +1,29 @@
+server:
+  port: ${PORT:8082}
+spring:
+    application:
+      name: template
+    datasource:
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        url: jdbc:mysql://localhost:3306/template?useSSL=false&allowPublicKeyRetrieval=true
+        username: root 
+        password: root 
+        platform: mysql 
+        schema: classpath:/sql/schema.sql
+    jpa:
+        database-platform: org.hibernate.dialect.MySQLDialect 
+        generate-ddl: false
+        hibernate:
+            ddl-auto: none
+        show-sql: true
+        
+logging:
+  file: application.log
+  pattern:
+    console: "%d %-5level %logger : %msg%n"
+    file: "%d %-5level [%thread] %logger : %msg%n"
+  level:
+    ROOT: DEBUG 
+    org.springframework.web: DEBUG 
+    org.hibernate: DEBUG 
+    template.spring: DEBUG 
