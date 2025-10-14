@@ -1,4 +1,4 @@
-package com.app.initializr;
+package com.template.spring;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

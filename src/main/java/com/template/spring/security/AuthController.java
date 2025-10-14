@@ -1,9 +1,5 @@
-package com.app.initializr.controller;
+package com.template.spring.security;
 
-import com.app.initializr.entity.User;
-import com.app.initializr.model.LoginCreds;
-import com.app.initializr.repository.UserRepo;
-import com.app.initializr.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +18,7 @@ import java.util.Map;
 public class AuthController {
 
     @Autowired
-    private UserRepo userRepo;
+    private UserRepository userRepo;
 
     @Autowired
     private JWTUtil jwtUtil;
@@ -35,19 +31,19 @@ public class AuthController {
 
     @PostMapping("/register")
     public Map<String, Object> registerHandler(
-            @RequestBody User user
+            @RequestBody UserEntity userEntity
             ){
-        String encodedPass = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPass);
-        user = userRepo.save(user);
+        String encodedPass = passwordEncoder.encode(userEntity.getPassword());
+        userEntity.setPassword(encodedPass);
+        userEntity = userRepo.save(userEntity);
 
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtUtil.generateToken(userEntity.getUsername());
         return Collections.singletonMap("jwt-token",token);
     }
 
     @PostMapping("/login")
     public Map<String,Object> loginHandler(
-            @RequestBody LoginCreds body
+            @RequestBody CredentialsModel body
             ){
         try{
             UsernamePasswordAuthenticationToken authInputToken =

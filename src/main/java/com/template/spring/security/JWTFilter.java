@@ -1,8 +1,6 @@
-package com.app.initializr.filter;
+package com.template.spring.security;
 
 
-import com.app.initializr.security.JWTUtil;
-import com.app.initializr.security.MyUserDetailService;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -21,7 +19,7 @@ import java.io.IOException;
 public class JWTFilter extends OncePerRequestFilter {
 
     @Autowired
-    private MyUserDetailService userDetailService;
+    private UserDetailService userDetailService;
 
     @Autowired
     private JWTUtil jwtUtil;

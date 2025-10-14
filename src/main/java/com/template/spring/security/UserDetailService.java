@@ -1,7 +1,5 @@
-package com.app.initializr.security;
+package com.template.spring.security;
 
-import com.app.initializr.entity.User;
-import com.app.initializr.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,24 +11,25 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Component
-public class MyUserDetailService implements UserDetailsService {
+public class UserDetailService implements UserDetailsService {
 
-    @Autowired private UserRepo userRepo;
+    @Autowired
+    private UserRepository userRepo;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> userRes = userRepo.findByUsername(username);
+        Optional<UserEntity> userRes = userRepo.findByUsername(username);
 
-        if(userRes.isEmpty())
-            throw new UsernameNotFoundException("No user found with this username "+username);
-        User user = userRes.get();
+        if (userRes.isEmpty())
+            throw new UsernameNotFoundException("No user found with this username " + username);
+        UserEntity userEntity = userRes.get();
         return new
                 org.springframework.security.core.userdetails.User(
-                        username,
-                        user.getPassword(),
-                        Collections.singletonList(
-                                new SimpleGrantedAuthority("ROLE_USER")
-                        )
+                username,
+                userEntity.getPassword(),
+                Collections.singletonList(
+                        new SimpleGrantedAuthority("ROLE_USER")
+                )
         );
     }
 }

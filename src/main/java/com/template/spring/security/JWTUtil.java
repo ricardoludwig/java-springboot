@@ -1,4 +1,4 @@
-package com.app.initializr.security;
+package com.template.spring.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;

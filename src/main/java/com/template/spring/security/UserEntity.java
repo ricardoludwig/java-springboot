@@ -1,4 +1,4 @@
-package com.app.initializr.entity;
+package com.template.spring.security;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @Setter
 @ToString
 @NoArgsConstructor
-public class User {
+public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
