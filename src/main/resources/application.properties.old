@@ -1,1 +1,16 @@
-spring.application.name=template
+spring.application.name=initializr
+spring.config.import=optional:file:.env[.properties]
+# Database connection configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/template?useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.properties.hibernate.format_sql=true
+
+
+# Hibernate settings (make sure to turn off ddl-auto to avoid conflicts)
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+spring.jpa.show-sql=true
+
+jwt_secret=my-secret-key
+
