@@ -10,10 +10,10 @@ import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CorretagemTest {
+public class CorretagemV1Test {
 
 
-    private Premio premio;
+    private PremioV1 premio;
     private static final Integer PRAZO = 12;
     private static final Double TAXA_PREMIO = 0.0002;
     private static final Double TAXA_CORRETAGEM = 0.05;
@@ -24,9 +24,9 @@ public class CorretagemTest {
         Moeda moeda = new Moeda("Brasil", "Real", "R$");
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda, valor);
-        Emprestimo emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+        EmprestimoV1 emprestimo = new EmprestimoV1(PRAZO, vlrEmprestimo);
 
-        premio = new Premio(TAXA_PREMIO, emprestimo).calcular();
+        premio = new PremioV1(TAXA_PREMIO, emprestimo).calcular();
     }
 
     @Test
@@ -35,9 +35,9 @@ public class CorretagemTest {
         BigDecimal esperado = BigDecimal.valueOf(0.1d)
                 .setScale(2, RoundingMode.HALF_UP);
 
-        Corretagem ct = new Corretagem(TAXA_CORRETAGEM, premio);
+        CorretagemV1 ct = new CorretagemV1(TAXA_CORRETAGEM, premio);
 
-        Corretagem ctCalculada = ct.calcular();
+        CorretagemV1 ctCalculada = ct.calcular();
 
         assertEquals(esperado, ctCalculada.valorToBigDecimal());
 
@@ -50,9 +50,9 @@ public class CorretagemTest {
                 .setScale(2, RoundingMode.HALF_UP);
 
         Double taxaCorretagem = 0.05;
-        Corretagem ct = new Corretagem(taxaCorretagem, null);
+        CorretagemV1 ct = new CorretagemV1(taxaCorretagem, null);
 
-        Corretagem ctCalculada = ct.calcular();
+        CorretagemV1 ctCalculada = ct.calcular();
 
         assertEquals(esperado, ctCalculada.valorToBigDecimal());
 
@@ -64,9 +64,9 @@ public class CorretagemTest {
         BigDecimal esperado = BigDecimal.ZERO
                 .setScale(2, RoundingMode.HALF_UP);
 
-        Corretagem ct = new Corretagem(null, premio);
+        CorretagemV1 ct = new CorretagemV1(null, premio);
 
-        Corretagem ctCalculada = ct.calcular();
+        CorretagemV1 ctCalculada = ct.calcular();
 
         assertEquals(esperado, ctCalculada.valorToBigDecimal());
 

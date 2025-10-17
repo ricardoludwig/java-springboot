@@ -6,24 +6,24 @@ import java.math.BigInteger;
 import java.util.Objects;
 import java.util.UUID;
 
-public final class Prestamista implements Seguro {
+public final class PrestamistaV1 implements SeguroV1 {
 
     private final BigInteger idContrato;
-    private final Emprestimo emprestimo;
-    private final Corretagem corretagem;
+    private final EmprestimoV1 emprestimo;
+    private final CorretagemV1 corretagem;
     private final ESeguroStatus status;
-    private final Cliente cliente;
+    private final ClienteV1 cliente;
 
     public static class Builder {
-        private final Emprestimo _emprestimo;
-        private final Corretagem _corretagem;
+        private final EmprestimoV1 _emprestimo;
+        private final CorretagemV1 _corretagem;
         private ESeguroStatus _status;
-        private Cliente _cliente;
+        private ClienteV1 _cliente;
 
-        public Builder(Emprestimo emprestimo, Corretagem corretagem,
-                       Cliente cliente) {
+        public Builder(EmprestimoV1 emprestimo, CorretagemV1 corretagem,
+                       ClienteV1 cliente) {
             _emprestimo = Objects.requireNonNullElseGet(emprestimo,
-                    () -> new Emprestimo(0, null));
+                    () -> new EmprestimoV1(0, null));
             _corretagem = corretagem;
             _cliente = cliente;
         }
@@ -33,12 +33,12 @@ public final class Prestamista implements Seguro {
             return this;
         }
 
-        public Prestamista build() {
-            return new Prestamista(this);
+        public PrestamistaV1 build() {
+            return new PrestamistaV1(this);
         }
     }
 
-    private Prestamista(Builder build) {
+    private PrestamistaV1(Builder build) {
         idContrato = uuid();
         emprestimo = build._emprestimo;
         corretagem = build._corretagem;
@@ -64,7 +64,7 @@ public final class Prestamista implements Seguro {
 
     @Override
     public ValorMonetario valorDoPremio() {
-        Premio premio = corretagem.premio();
+        PremioV1 premio = corretagem.premio();
         return premio.valor();
     }
 
@@ -85,7 +85,7 @@ public final class Prestamista implements Seguro {
 
     @Override
     //TODO
-    public Cliente cliente() {
+    public ClienteV1 cliente() {
         return null;
     }
 }

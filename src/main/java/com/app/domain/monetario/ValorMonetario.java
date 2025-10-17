@@ -7,7 +7,7 @@ import java.math.RoundingMode;
  * Para os valores de parâmetros não informados o objeto será construído
  * com valores padrões:
  * moeda = new Moeda("Brasil", "Real", "R$");
- * valorMonetario = BigDecimal.ZERO;
+ * valorEmprestimo = BigDecimal.ZERO;
  * @param moeda
  * @param valor
  */

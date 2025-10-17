@@ -2,13 +2,21 @@ package com.app.service;
 
 import com.app.domain.monetario.Moeda;
 import com.app.domain.monetario.ValorMonetario;
-import com.app.domain.seguro.Cliente;
+import com.app.domain.seguro.CalculadorCorretagem;
+import com.app.domain.seguro.CalculadorPremio;
+import com.app.domain.seguro.ClienteV1;
 import com.app.domain.seguro.Corretagem;
+import com.app.domain.seguro.CorretagemPrestamista;
+import com.app.domain.seguro.CorretagemV1;
 import com.app.domain.seguro.Cotacao;
+import com.app.domain.seguro.CotacaoV1;
 import com.app.domain.seguro.Emprestimo;
+import com.app.domain.seguro.EmprestimoV1;
 import com.app.domain.seguro.Premio;
-import com.app.domain.seguro.Prestamista;
-import com.app.domain.seguro.Seguro;
+import com.app.domain.seguro.PremioPrestamista;
+import com.app.domain.seguro.PremioV1;
+import com.app.domain.seguro.PrestamistaV1;
+import com.app.domain.seguro.SeguroV1;
 import com.app.model.ClienteEntity;
 import com.app.model.CotacaoEntity;
 import com.app.repository.CotacaoRepository;
@@ -34,26 +42,26 @@ public class CotacaoService {
 
     public void criar(CriarCotacaoRequest cotacaoRequest) {
 
-        Moeda moeda = new Moeda("Brasil", "Real", "R$");
         BigDecimal valor = BigDecimal.valueOf(100.0d);
-        ValorMonetario vlrEmprestimo = new ValorMonetario(moeda, valor);
+        Emprestimo emprestimo = new Emprestimo(PRAZO, valor);
 
-        Emprestimo emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+        Premio premio = new PremioPrestamista(emprestimo);
+        CalculadorPremio pc = new CalculadorPremio();
+        Premio premioCalculado = pc.calcular(premio);
 
-        Premio premio = new Premio(TAXA_PREMIO, emprestimo)
-                .calcular();
-        Corretagem corretagem = new Corretagem(TAXA_CORRETAGEM, premio)
-                .calcular();
+        Corretagem corretagem = new CorretagemPrestamista(premioCalculado);
+        CalculadorCorretagem cc = new CalculadorCorretagem();
+        Corretagem corretagemCalculada = cc.calcular(corretagem);
+
+        Cotacao cotacao = new Cotacao(corretagem, PRAZO);
+        cotacao.valorTotal();
 
         String strEmail = cotacaoRequest.getEmail();
         Email email = new Email(strEmail);
 
-        Cliente cliente = new Cliente(cotacaoRequest.getNome(), 11, email, null, null);
-        Seguro seguro = new Prestamista
-                .Builder(emprestimo, corretagem, cliente)
-                .build();
+        ClienteV1 cliente = new ClienteV1(cotacaoRequest.getNome(), 11, email, null, null);
 
-        Cotacao cotacao = new Cotacao(seguro);
+        CotacaoV1 cotacao = new CotacaoV1(seguro);
         CotacaoResponse ctr = new CotacaoResponse(cotacao.valorTotal(),
                 cotacao.valorVista(), cotacao.valorParcelado());
 
@@ -85,17 +93,17 @@ public class CotacaoService {
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda, valor);
 
-        Emprestimo emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+        EmprestimoV1 emprestimo = new EmprestimoV1(PRAZO, vlrEmprestimo);
 
-        Premio premio = new Premio(TAXA_PREMIO, emprestimo)
+        PremioV1 premio = new PremioV1(TAXA_PREMIO, emprestimo)
                 .calcular();
-        Corretagem corretagem = new Corretagem(TAXA_CORRETAGEM, premio)
+        CorretagemV1 corretagem = new CorretagemV1(TAXA_CORRETAGEM, premio)
                 .calcular();
-        Seguro seguro = new Prestamista
+        SeguroV1 seguro = new PrestamistaV1
                 .Builder(emprestimo, corretagem, null)
                 .build();
 
-        Cotacao cotacao = new Cotacao(seguro);
+        CotacaoV1 cotacao = new CotacaoV1(seguro);
         CotacaoResponse ctr = new CotacaoResponse(cotacao.valorTotal(),
                 cotacao.valorVista(), cotacao.valorParcelado());
 

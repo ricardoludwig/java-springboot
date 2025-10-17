@@ -1,21 +1,21 @@
 package com.app.domain.seguro;
 
-import com.app.domain.monetario.ValorMonetario;
-
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
-public record Emprestimo(Integer prazo, ValorMonetario valorMonetario) {
+public record Emprestimo(Integer prazo, BigDecimal valorEmprestimo) {
     public Emprestimo {
-        valorMonetario = Objects.requireNonNullElseGet(valorMonetario,
-                () -> new ValorMonetario(null, null));
+        valorEmprestimo = Objects.requireNonNullElseGet(valorEmprestimo,
+                () -> BigDecimal.ZERO);
+        valorEmprestimo = valorEmprestimo.setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal valorToBigDecimal() {
-        return valorMonetario.valor();
+        return valorEmprestimo;
     }
 
-    public ValorMonetario valor() {
-        return valorMonetario;
+    public BigDecimal valor() {
+        return valorEmprestimo;
     }
 }

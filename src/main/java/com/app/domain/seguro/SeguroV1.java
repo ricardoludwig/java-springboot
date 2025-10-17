@@ -3,9 +3,8 @@ package com.app.domain.seguro;
 import com.app.domain.monetario.ValorMonetario;
 
 import java.math.BigInteger;
-import java.util.Objects;
 
-public interface Seguro {
+public interface SeguroV1 {
 
     BigInteger idContrato();
 
@@ -19,10 +18,10 @@ public interface Seguro {
 
     int numeroParcelas();
 
-    Cliente cliente();
+    ClienteV1 cliente();
 
-    static Seguro newInstance() {
-        return new Seguro() {
+    static SeguroV1 newInstance() {
+        return new SeguroV1() {
             @Override
             public BigInteger idContrato() {
                 return BigInteger.ZERO;
@@ -54,7 +53,7 @@ public interface Seguro {
             }
 
             @Override
-            public Cliente cliente() {
+            public ClienteV1 cliente() {
                 return null;
             }
         };

@@ -10,10 +10,10 @@ import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class PremioTest {
+public class PremioV1Test {
     private Moeda moeda;
-    private Premio premio;
-    private Emprestimo emprestimo;
+    private PremioV1 premio;
+    private EmprestimoV1 emprestimo;
     private static final Integer PRAZO = 12;
 
     @BeforeEach
@@ -26,10 +26,10 @@ public class PremioTest {
 
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda,valor);
-        emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+        emprestimo = new EmprestimoV1(PRAZO, vlrEmprestimo);
 
         Double taxa = 0.0002;
-        Premio premio = new Premio(taxa, emprestimo);
+        PremioV1 premio = new PremioV1(taxa, emprestimo);
 
         BigDecimal valorEsperado = BigDecimal.valueOf(0.02);
 
@@ -41,10 +41,10 @@ public class PremioTest {
     @Test
     void dado_valor_emprestimo_invalido_entao_taxa_premio_igual_zero() {
 
-        emprestimo = new Emprestimo(PRAZO, null);
+        emprestimo = new EmprestimoV1(PRAZO, null);
 
         Double taxa = 0.0002;
-        Premio premio = new Premio(taxa, emprestimo);
+        PremioV1 premio = new PremioV1(taxa, emprestimo);
 
         BigDecimal valorEsperado = BigDecimal.ZERO
                 .setScale(2, RoundingMode.HALF_UP);
@@ -59,9 +59,9 @@ public class PremioTest {
 
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda,valor);
-        emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+        emprestimo = new EmprestimoV1(PRAZO, vlrEmprestimo);
 
-        Premio premio = new Premio(null, emprestimo);
+        PremioV1 premio = new PremioV1(null, emprestimo);
 
         BigDecimal valorEsperado = BigDecimal.ZERO
                 .setScale(2, RoundingMode.HALF_UP);
@@ -76,15 +76,15 @@ public class PremioTest {
 
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda,valor);
-        emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+        emprestimo = new EmprestimoV1(PRAZO, vlrEmprestimo);
 
         Double taxa = 0.0002;
-        Premio premio = new Premio(taxa, emprestimo);
+        PremioV1 premio = new PremioV1(taxa, emprestimo);
 
         BigDecimal valorEsperado = BigDecimal.valueOf(2.00d)
                 .setScale(2, RoundingMode.HALF_UP);
 
-        Premio premioCalculado = premio.calcular();
+        PremioV1 premioCalculado = premio.calcular();
 
         assertEquals(valorEsperado, premioCalculado.valorToBigDecimal());
     }
