@@ -2,11 +2,11 @@ package com.app.domain.seguro;
 
 import java.math.BigDecimal;
 
-public interface Corretagem {
+abstract class Corretagem {
 
-    Corretagem calcular();
+    abstract Corretagem calcular();
 
-    BigDecimal valor();
+    abstract BigDecimal valor();
 
-    BigDecimal valorPremio();
+    abstract BigDecimal valorPremio();
 }

@@ -2,27 +2,19 @@ package com.app.service;
 
 import com.app.domain.monetario.Moeda;
 import com.app.domain.monetario.ValorMonetario;
-import com.app.domain.seguro.CalculadorCorretagem;
-import com.app.domain.seguro.CalculadorPremio;
-import com.app.domain.seguro.ClienteV1;
-import com.app.domain.seguro.Corretagem;
-import com.app.domain.seguro.CorretagemPrestamista;
 import com.app.domain.seguro.CorretagemV1;
-import com.app.domain.seguro.Cotacao;
+import com.app.domain.seguro.CotacaoFacade;
 import com.app.domain.seguro.CotacaoV1;
-import com.app.domain.seguro.Emprestimo;
 import com.app.domain.seguro.EmprestimoV1;
-import com.app.domain.seguro.Premio;
-import com.app.domain.seguro.PremioPrestamista;
 import com.app.domain.seguro.PremioV1;
 import com.app.domain.seguro.PrestamistaV1;
 import com.app.domain.seguro.SeguroV1;
+import com.app.dto.CotacaoDTO;
 import com.app.model.ClienteEntity;
 import com.app.model.CotacaoEntity;
 import com.app.repository.CotacaoRepository;
 import com.app.rest.CotacaoResponse;
 import com.app.rest.CriarCotacaoRequest;
-import com.app.util.Email;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,42 +32,18 @@ public class CotacaoService {
     private static final Double TAXA_PREMIO = 0.0002;
     private static final Double TAXA_CORRETAGEM = 0.05;
 
-    public void criar(CriarCotacaoRequest cotacaoRequest) {
+    public void criar(CriarCotacaoRequest ctr) {
 
-        BigDecimal valor = BigDecimal.valueOf(100.0d);
-        Emprestimo emprestimo = new Emprestimo(PRAZO, valor);
+        CotacaoFacade facade = new CotacaoFacade();
+        CotacaoDTO cotacaoDTO = facade
+                .calcular(ctr.getPrazoEmprestimo(), ctr.getValorEmprestimo());
 
-        Premio premio = new PremioPrestamista(emprestimo);
-        CalculadorPremio pc = new CalculadorPremio();
-        Premio premioCalculado = pc.calcular(premio);
-
-        Corretagem corretagem = new CorretagemPrestamista(premioCalculado);
-        CalculadorCorretagem cc = new CalculadorCorretagem();
-        Corretagem corretagemCalculada = cc.calcular(corretagem);
-
-        Cotacao cotacao = new Cotacao(corretagem, PRAZO);
-        cotacao.valorTotal();
-
-        String strEmail = cotacaoRequest.getEmail();
-        Email email = new Email(strEmail);
-
-        ClienteV1 cliente = new ClienteV1(cotacaoRequest.getNome(), 11, email, null, null);
-
-        CotacaoV1 cotacao = new CotacaoV1(seguro);
-        CotacaoResponse ctr = new CotacaoResponse(cotacao.valorTotal(),
-                cotacao.valorVista(), cotacao.valorParcelado());
-
-        CotacaoEntity cotacaoEntity = new CotacaoEntity();
-        cotacaoEntity.setValorCorretagem(corretagem.valorToBigDecimal());
-        cotacaoEntity.setValorDoPremio(premio.valorToBigDecimal());
-        cotacaoEntity.setValorEmprestimo(emprestimo.valorToBigDecimal());
-        cotacaoEntity.setValorParcelado(ctr.valorParcelado());
-        cotacaoEntity.setValorTotal(ctr.valorTotal());
-        cotacaoEntity.setValorVista(ctr.valorVista());
+        CotacaoEntity cotacaoEntity = CotacaoEntity.valueOf(cotacaoDTO);
+        cotacaoEntity.setValorEmprestimo(ctr.getValorEmprestimo());
 
         ClienteEntity clienteEntity = new ClienteEntity();
-        clienteEntity.setNome(cliente.nome());
-        clienteEntity.setEmail(cliente.email().email());
+        clienteEntity.setNome(ctr.getNome());
+        clienteEntity.setEmail(ctr.getEmail());
 
         cotacaoEntity.setCliente(clienteEntity);
         List<CotacaoEntity> cel = new ArrayList<>();
@@ -86,6 +54,7 @@ public class CotacaoService {
         repository.save(cotacaoEntity);
 
     }
+
 
     public List<CotacaoResponse> buscar(String email) {
 

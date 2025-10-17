@@ -4,18 +4,23 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-public record Emprestimo(Integer prazo, BigDecimal valorEmprestimo) {
-    public Emprestimo {
-        valorEmprestimo = Objects.requireNonNullElseGet(valorEmprestimo,
+class Emprestimo {
+
+    private final Integer _prazo;
+    private BigDecimal _valorEmprestimo;
+
+    Emprestimo(Integer prazo, BigDecimal valorEmprestimo) {
+        _prazo = Objects.requireNonNullElseGet(prazo, () -> 1);
+        _valorEmprestimo = Objects.requireNonNullElseGet(valorEmprestimo,
                 () -> BigDecimal.ZERO);
-        valorEmprestimo = valorEmprestimo.setScale(2, RoundingMode.HALF_UP);
+        _valorEmprestimo = valorEmprestimo.setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal valorToBigDecimal() {
-        return valorEmprestimo;
+    BigDecimal valor() {
+        return _valorEmprestimo;
     }
 
-    public BigDecimal valor() {
-        return valorEmprestimo;
+    Integer prazo() {
+        return _prazo;
     }
 }

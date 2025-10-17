@@ -2,11 +2,11 @@ package com.app.domain.seguro;
 
 import java.math.BigDecimal;
 
-public interface Premio {
+abstract class Premio {
 
-    Premio calcular();
+    abstract Premio calcular();
 
-    BigDecimal valor();
+    abstract BigDecimal valor();
 
-    BigDecimal calcularTaxaPremio();
+    abstract BigDecimal calcularTaxaPremio();
 }

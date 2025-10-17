@@ -3,7 +3,7 @@ package com.app.domain.seguro;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class CorretagemDefaultValues implements Corretagem {
+class CorretagemDefaultValues extends Corretagem {
 
     public CorretagemDefaultValues() {
     }

@@ -5,30 +5,35 @@ import java.math.RoundingMode;
 import java.util.Objects;
 
 
-public record Cotacao(Corretagem corretagem, Integer numParcelas) {
+class Cotacao {
+    private Integer numParcelas;
+    private final Corretagem _corretagem;
+    private static final Integer MENOR_PARCELA = 1;
 
-    public static final Integer MENOR_PARCELA = 1;
-
-    public Cotacao {
-        corretagem = Objects.requireNonNullElseGet(corretagem,
+    Cotacao(Corretagem corretagem, Integer numParcelas) {
+        _corretagem = Objects.requireNonNullElseGet(corretagem,
                 CorretagemDefaultValues::new);
         numParcelas = Objects.requireNonNullElseGet(numParcelas, () -> MENOR_PARCELA);
         if (numParcelas < MENOR_PARCELA)
             numParcelas = MENOR_PARCELA;
     }
 
-    public BigDecimal valorParcelado() {
+    BigDecimal valorParcelado() {
         return valorTotal().divide(BigDecimal
                 .valueOf(numParcelas), RoundingMode.HALF_UP);
     }
 
-    public BigDecimal valorVista() {
+    BigDecimal valorVista() {
         return valorTotal();
     }
 
-    public BigDecimal valorTotal() {
-        BigDecimal vlrPremio = corretagem.valorPremio();
-        BigDecimal vlrCorretagem = corretagem.valor();
+    BigDecimal valorTotal() {
+        BigDecimal vlrPremio = _corretagem.valorPremio();
+        BigDecimal vlrCorretagem = _corretagem.valor();
         return vlrPremio.add(vlrCorretagem);
+    }
+
+    BigDecimal valorPremio() {
+        return _corretagem.valorPremio();
     }
 }

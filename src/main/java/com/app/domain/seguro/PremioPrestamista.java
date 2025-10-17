@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
 
-public class PremioPrestamista implements Premio {
+class PremioPrestamista extends Premio {
 
     private final Emprestimo _emprestimo;
     private BigDecimal valorDoPremio;
@@ -22,14 +22,14 @@ public class PremioPrestamista implements Premio {
         valorDoPremio = BigDecimal.ZERO;
     }
 
-    public PremioPrestamista calcular() {
-        BigDecimal valorCorretagem = _emprestimo.valorToBigDecimal()
+    PremioPrestamista calcular() {
+        BigDecimal valorCorretagem = _emprestimo.valor()
                 .multiply(calcularTaxaPremio())
                 .setScale(2, RoundingMode.HALF_UP);
         return factoryMethod(_emprestimo, valorCorretagem);
     }
 
-    private PremioPrestamista factoryMethod(Emprestimo emprestimo,
+    PremioPrestamista factoryMethod(Emprestimo emprestimo,
                                             BigDecimal valorPremio) {
         PremioPrestamista premio = new PremioPrestamista(emprestimo);
         premio.valorDoPremio = Objects.requireNonNullElseGet(valorPremio,
@@ -37,13 +37,13 @@ public class PremioPrestamista implements Premio {
         return premio;
     }
 
-    public BigDecimal calcularTaxaPremio() {
+    BigDecimal calcularTaxaPremio() {
         return _emprestimo.valorToBigDecimal()
                 .multiply(BigDecimal.valueOf(PERCENTE_TAXA))
                 .setScale(2, RoundingMode.HALF_UP);
     }
 
-    public BigDecimal valor() {
+    BigDecimal valor() {
         return valorDoPremio;
     }
 }
