@@ -34,7 +34,7 @@ public class CotacaoTest {
         corretagem = new Corretagem(TAXA_CORRETAGEM, premio)
                 .calcular();
         seguro = new Prestamista
-                .Builder(emprestimo, corretagem)
+                .Builder(emprestimo, corretagem, null)
                 .build();
 
         cotacao = new Cotacao(seguro);
@@ -73,7 +73,7 @@ public class CotacaoTest {
         corretagem = new Corretagem(TAXA_CORRETAGEM, null)
                 .calcular();
         seguro = new Prestamista
-                .Builder(emprestimo, corretagem)
+                .Builder(emprestimo, corretagem, null)
                 .build();
         cotacao = new Cotacao(seguro);
 

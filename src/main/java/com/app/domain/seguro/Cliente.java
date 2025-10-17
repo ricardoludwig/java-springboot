@@ -7,7 +7,7 @@ import java.util.List;
 
 
 public record Cliente(
-        Nome nome,
+        String nome,
         Integer idade,
         Email email,
         List<Cotacao> cotacoes,

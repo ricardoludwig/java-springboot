@@ -12,16 +12,20 @@ public final class Prestamista implements Seguro {
     private final Emprestimo emprestimo;
     private final Corretagem corretagem;
     private final ESeguroStatus status;
+    private final Cliente cliente;
 
     public static class Builder {
         private final Emprestimo _emprestimo;
         private final Corretagem _corretagem;
         private ESeguroStatus _status;
+        private Cliente _cliente;
 
-        public Builder(Emprestimo emprestimo, Corretagem corretagem) {
+        public Builder(Emprestimo emprestimo, Corretagem corretagem,
+                       Cliente cliente) {
             _emprestimo = Objects.requireNonNullElseGet(emprestimo,
                     () -> new Emprestimo(0, null));
             _corretagem = corretagem;
+            _cliente = cliente;
         }
 
         public Builder status(ESeguroStatus status) {
@@ -39,6 +43,7 @@ public final class Prestamista implements Seguro {
         emprestimo = build._emprestimo;
         corretagem = build._corretagem;
         status = build._status;
+        cliente = build._cliente;
     }
 
     private BigInteger uuid() {
@@ -76,5 +81,11 @@ public final class Prestamista implements Seguro {
     @Override
     public int numeroParcelas() {
         return emprestimo.prazo();
+    }
+
+    @Override
+    //TODO
+    public Cliente cliente() {
+        return null;
     }
 }

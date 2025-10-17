@@ -19,6 +19,8 @@ public interface Seguro {
 
     int numeroParcelas();
 
+    Cliente cliente();
+
     static Seguro newInstance() {
         return new Seguro() {
             @Override
@@ -49,6 +51,11 @@ public interface Seguro {
             @Override
             public int numeroParcelas() {
                 return 0;
+            }
+
+            @Override
+            public Cliente cliente() {
+                return null;
             }
         };
     }
