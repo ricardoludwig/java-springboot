@@ -30,16 +30,14 @@ public class CotacaoEntity {
 
     private BigDecimal valorDoPremio;
 
-    private BigDecimal valorCorretagem;
-
     private BigDecimal valorTotal;
 
     private BigDecimal valorVista;
 
     private BigDecimal valorParcelado;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "cliente_id") // chave estrangeira
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id")
     private ClienteEntity cliente;
 
     public static CotacaoEntity valueOf(CotacaoDTO cotacaoDTO) {

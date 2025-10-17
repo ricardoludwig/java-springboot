@@ -13,7 +13,7 @@ class Emprestimo {
         _prazo = Objects.requireNonNullElseGet(prazo, () -> 1);
         _valorEmprestimo = Objects.requireNonNullElseGet(valorEmprestimo,
                 () -> BigDecimal.ZERO);
-        _valorEmprestimo = valorEmprestimo.setScale(2, RoundingMode.HALF_UP);
+        _valorEmprestimo = _valorEmprestimo.setScale(2, RoundingMode.HALF_UP);
     }
 
     BigDecimal valor() {

@@ -7,5 +7,6 @@ import org.springframework.stereotype.Repository;
 import java.math.BigInteger;
 
 @Repository
-public interface CotacaoRepository extends CrudRepository<CotacaoEntity, BigInteger> {
+public interface CotacaoRepository
+        extends CrudRepository<CotacaoEntity, BigInteger> {
 }

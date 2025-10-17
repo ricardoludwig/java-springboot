@@ -38,7 +38,7 @@ class PremioPrestamista extends Premio {
     }
 
     BigDecimal calcularTaxaPremio() {
-        return _emprestimo.valorToBigDecimal()
+        return _emprestimo.valor()
                 .multiply(BigDecimal.valueOf(PERCENTE_TAXA))
                 .setScale(2, RoundingMode.HALF_UP);
     }

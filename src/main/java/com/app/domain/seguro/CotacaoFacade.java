@@ -10,10 +10,10 @@ public class CotacaoFacade {
         Emprestimo emprestimo = new Emprestimo(prazo, vlrEmprestimo);
         Premio premioCalculado = new PremioPrestamista(emprestimo).calcular();
         Corretagem corretagem = new CorretagemPrestamista(premioCalculado).calcular();
-        return valueOf(new Cotacao(corretagem, prazo));
+        return toCotacaoDTO(new Cotacao(corretagem, prazo));
     }
 
-    private CotacaoDTO valueOf(Cotacao ct) {
+    private CotacaoDTO toCotacaoDTO(Cotacao ct) {
         return new CotacaoDTO.Builder()
                 .valorParcelado(ct.valorParcelado())
                 .valorVista(ct.valorVista())

@@ -3,7 +3,7 @@ package com.app.domain.seguro;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class PremioDefaultValues implements Premio {
+class PremioDefaultValues extends Premio {
 
     private final Emprestimo _emprestimo;
 
@@ -13,17 +13,17 @@ public class PremioDefaultValues implements Premio {
                 .setScale(2, RoundingMode.HALF_UP));
     }
 
-    public PremioDefaultValues calcular() {
+    PremioDefaultValues calcular() {
         return this;
     }
 
-    public BigDecimal valor() {
+    BigDecimal valor() {
         return BigDecimal
                 .ZERO.setScale(2, RoundingMode.HALF_UP);
     }
 
     @Override
-    public BigDecimal calcularTaxaPremio() {
+    BigDecimal calcularTaxaPremio() {
         return BigDecimal.ZERO
                 .setScale(2, RoundingMode.HALF_UP);
     }
