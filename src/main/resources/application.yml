@@ -1,6 +1,6 @@
 server:
   port: ${PORT:8080}
-jwt_secret: my-secret-key
+#jwt_secret: my-secret-key
 spring:
   application:
     name: template

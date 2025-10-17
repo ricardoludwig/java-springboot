@@ -1,5 +1,3 @@
 package com.app.util;
 
-public class Email {
-
-}
+public record Email(String email) { }

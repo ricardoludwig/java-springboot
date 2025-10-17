@@ -1,13 +1,15 @@
 package com.app.domain.seguro;
 
-import com.app.domain.perfil.Usuario;
+import com.app.domain.perfil.Nome;
+import com.app.util.Email;
 
 import java.util.List;
 
-public class Cliente {
 
-    private Usuario usuario;
-    private String cpf;
-    private List<Cotacao> cotacoes;
-    private List<Seguro> seguros;
+public record Cliente(
+        Nome nome,
+        Integer idade,
+        Email email,
+        List<Cotacao> cotacoes,
+        List<Seguro> seguros) {
 }

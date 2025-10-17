@@ -1,6 +1,7 @@
 package com.app.domain.monetario;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Para os valores de parâmetros não informados o objeto será construído
@@ -14,7 +15,8 @@ import java.math.BigDecimal;
 public record ValorMonetario(Moeda moeda, BigDecimal valor) {
     public ValorMonetario {
         if (valor == null)
-            valor = BigDecimal.ZERO;
+            valor = BigDecimal.ZERO.setScale(2, RoundingMode.HALF_UP);
+        valor = valor.setScale(2, RoundingMode.HALF_UP);
         if (moeda == null)
             moeda = new Moeda("Brasil", "Real", "R$");
     }

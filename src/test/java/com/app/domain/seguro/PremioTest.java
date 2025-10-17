@@ -11,49 +11,22 @@ import java.math.RoundingMode;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PremioTest {
-    /*
-    Cálculo de Seguro Prestamista:
-    Implementar uma lógica para calcular o prêmio do seguro com base em:
-    Input:
-
-        Valor do empréstimo.
-        Prazo do empréstimo e seguro = 12 meses
-        Taxa de prêmio sugerida (ex.: 0.02% do valorMonetario do empréstimo).
-        Taxa de corretagem (ex.: 5% do prêmio calculado).
-
-    Output:
-    Devolver o valorMonetario a ser
-        * pago à vista e
-        * parcelado de acordo com o prazo.
-
-    Exemplo de fórmula:
-        prêmio = valor_emprestimo * taxa_premio_sugerida
-
-        total = prêmio + corretagem
-
-    Logo:
-        corretagem = 100 * 0.05;
-        corretagem = 5;
-
-     */
-
     private Moeda moeda;
     private Premio premio;
     private Emprestimo emprestimo;
-    private Integer prazo;
+    private static final Integer PRAZO = 12;
 
     @BeforeEach
     void setup() {
         moeda = new Moeda("Brasil", "Real", "R$");
-        prazo = 12;
     }
 
     @Test
-    void test() {
+    void dado_valor_emprestimo_e_perct_taxa_entao_calcular_taxa_premio() {
 
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda,valor);
-        emprestimo = new Emprestimo(prazo, vlrEmprestimo);
+        emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
 
         Double taxa = 0.0002;
         Premio premio = new Premio(taxa, emprestimo);
@@ -66,11 +39,44 @@ public class PremioTest {
     }
 
     @Test
-    void test2() {
+    void dado_valor_emprestimo_invalido_entao_taxa_premio_igual_zero() {
+
+        emprestimo = new Emprestimo(PRAZO, null);
+
+        Double taxa = 0.0002;
+        Premio premio = new Premio(taxa, emprestimo);
+
+        BigDecimal valorEsperado = BigDecimal.ZERO
+                .setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal taxaPremioCalculada = premio.calcularTaxaPremio();
+
+        assertEquals(valorEsperado, taxaPremioCalculada);
+    }
+
+    @Test
+    void dado_valor_percentual_taxa_premio_invalida_entao_premio_igual_zero() {
 
         BigDecimal valor = BigDecimal.valueOf(100.0d);
         ValorMonetario vlrEmprestimo = new ValorMonetario(moeda,valor);
-        emprestimo = new Emprestimo(prazo, vlrEmprestimo);
+        emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
+
+        Premio premio = new Premio(null, emprestimo);
+
+        BigDecimal valorEsperado = BigDecimal.ZERO
+                .setScale(2, RoundingMode.HALF_UP);
+
+        BigDecimal taxaPremioCalculada = premio.calcularTaxaPremio();
+
+        assertEquals(valorEsperado, taxaPremioCalculada);
+    }
+
+    @Test
+    void dado_valor_emprestimo_entao_calcular_premio() {
+
+        BigDecimal valor = BigDecimal.valueOf(100.0d);
+        ValorMonetario vlrEmprestimo = new ValorMonetario(moeda,valor);
+        emprestimo = new Emprestimo(PRAZO, vlrEmprestimo);
 
         Double taxa = 0.0002;
         Premio premio = new Premio(taxa, emprestimo);
@@ -78,8 +84,8 @@ public class PremioTest {
         BigDecimal valorEsperado = BigDecimal.valueOf(2.00d)
                 .setScale(2, RoundingMode.HALF_UP);
 
-        Premio premioCalculado = premio.calcularPremio();
+        Premio premioCalculado = premio.calcular();
 
-        assertEquals(valorEsperado, premioCalculado.valor());
+        assertEquals(valorEsperado, premioCalculado.valorToBigDecimal());
     }
 }
