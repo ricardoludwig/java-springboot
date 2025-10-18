@@ -12,9 +12,8 @@ import java.util.Optional;
 public interface ClienteRepository extends CrudRepository<ClienteEntity, BigInteger> {
 
     @EntityGraph(attributePaths = "cotacao")
-    Optional<ClienteEntity> findWithCotacaoByEmail(String email);
-
-    Optional<ClienteEntity> findByEmail(String email);
+    Optional<ClienteEntity> findWithCotacaoByUsername(String username);
 
     Optional<ClienteEntity> findByUsername(String username);
+
 }

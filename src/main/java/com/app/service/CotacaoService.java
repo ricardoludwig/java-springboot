@@ -27,15 +27,16 @@ public class CotacaoService {
     private static final Double TAXA_PREMIO = 0.0002;
     private static final Double TAXA_CORRETAGEM = 0.05;
 
-    public void criar(CriarCotacaoRequest ctr) {
+    public void criar(CriarCotacaoRequest ctr, String userName) {
 
         ClienteEntity cliente = new ClienteEntity();
         cliente.setNome(ctr.getNome());
         cliente.setEmail(ctr.getEmail());
 
-        ClienteEntity found = clienteRepository.findByEmail(cliente
-                .getEmail()).orElseThrow(() ->
-                new EntityNotFoundException("Cliente não encontrado: " + cliente.getEmail()));
+        ClienteEntity found = clienteRepository.findByUsername(userName)
+                .orElseThrow(() ->
+                new EntityNotFoundException("Cliente não encontrado: "
+                        + cliente.getEmail()));
         criarCotacao(ctr, found);
     }
 
@@ -53,10 +54,10 @@ public class CotacaoService {
 
     }
 
-    public List<CotacaoDTO> buscar(String email) {
-        ClienteEntity cliente = clienteRepository.findWithCotacaoByEmail(email)
+    public List<CotacaoDTO> buscar(String username) {
+        ClienteEntity cliente = clienteRepository.findWithCotacaoByUsername(username)
                 .orElseThrow(() ->
-                new EntityNotFoundException("Cliente não encontrado: " + email));
+                new EntityNotFoundException("Cliente não encontrado: " + username));
         return cliente.getCotacao().stream()
                 .map(ct -> new CotacaoDTO.Builder()
                         .id(ct.getId())

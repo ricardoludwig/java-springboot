@@ -26,6 +26,12 @@ public class Response {
         _timestamp = new Date();
     }
 
+    public Response(Object content) {
+        _content = (content == null ? NO_CONTENT : content);
+        _message = NO_MESSAGE;
+        _timestamp = new Date();
+    }
+
     public Response(String message) {
         _content = NO_CONTENT;
         _message = (message == null ? NO_MESSAGE : message);

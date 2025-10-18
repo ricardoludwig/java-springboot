@@ -4,6 +4,8 @@ import com.app.model.ClienteEntity;
 import com.app.repository.ClienteRepository;
 import com.app.dto.ClienteDTO;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class ClienteService implements UserDetailsService {
 
     @Autowired
@@ -22,7 +25,7 @@ public class ClienteService implements UserDetailsService {
     private static final Double TAXA_PREMIO = 0.0002;
     private static final Double TAXA_CORRETAGEM = 0.05;
 
-    public void criar(ClienteDTO cliente) {
+    public boolean criar(ClienteDTO cliente) {
 
         ClienteEntity clienteEntity = new ClienteEntity();
         clienteEntity.setUsername(cliente.getUsername());
@@ -31,10 +34,17 @@ public class ClienteService implements UserDetailsService {
         clienteEntity.setEmail(cliente.getEmail());
 
         Optional<ClienteEntity> found = clienteRepository
-                .findByEmail(clienteEntity.getEmail());
-        if (found.isEmpty())
-            clienteRepository.save(clienteEntity);
-
+                .findByUsername(clienteEntity.getUsername());
+        if (found.isEmpty()) {
+            try {
+                clienteRepository.save(clienteEntity);
+                return true;
+            } catch (Exception ex) {
+                log.debug("Não foi possível criar cliente", ex);
+                return false;
+            }
+        }
+        return false;
     }
 
     @Override
