@@ -28,3 +28,8 @@ logging:
     org.hibernate: INFO
     org.springframework.security: TRACE
     template.spring: ERROR
+springdoc:
+  api-docs:
+    path: /api/docs
+  swagger-ui:
+    path: "/api/docs/swagger-ui-custom.html"

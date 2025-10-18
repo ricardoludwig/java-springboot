@@ -2,9 +2,7 @@ package com.app.rest;
 
 import com.app.dto.CotacaoDTO;
 import com.app.service.CotacaoService;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,7 +17,6 @@ import java.math.BigInteger;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.*;
-import static org.springframework.http.HttpStatus.OK;
 
 @RestController
 @RequestMapping("/api/cotacao")

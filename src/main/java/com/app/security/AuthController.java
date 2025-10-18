@@ -3,6 +3,12 @@ package com.app.security;
 import com.app.dto.ClienteDTO;
 import com.app.rest.Response;
 import com.app.service.ClienteService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +24,10 @@ import java.util.Collections;
 
 import static org.springframework.http.HttpStatus.*;
 
+
+@Tag(name = "Autenticação com token JWT",
+        description = "Endpoints para criação de usuário e senha e geração " +
+                "de token JWT")
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -34,6 +44,13 @@ public class AuthController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Operation(summary = "Buscar produto por ID", description = "Retorna um produto específico baseado no ID fornecido")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Produto encontrado",
+                    content = @Content(schema = @Schema(implementation = ClienteDTO.class))),
+            @ApiResponse(responseCode = "404", description = "Produto não encontrado",
+                    content = @Content)
+    })
     @PostMapping("/registrar")
     public ResponseEntity<Response> registrar(@RequestBody ClienteDTO clienteDTO) {
         String encodedPass = passwordEncoder.encode(clienteDTO.getPassword());
@@ -52,7 +69,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh-token")
-    public ResponseEntity<Response> refreshToken( @RequestBody CredentialsModel body) {
+    public ResponseEntity<Response> refreshToken( @RequestBody CredentialsDTO body) {
         try {
             UsernamePasswordAuthenticationToken authInputToken =
                     new UsernamePasswordAuthenticationToken(body.getUsername(),

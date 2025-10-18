@@ -17,7 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -38,7 +37,8 @@ public class SecurityConfig {
             .httpBasic(httpBasic -> httpBasic.disable())
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/components/**", "/api/auth/**", "/api/docs/**")
+                    .permitAll()
                     .requestMatchers("/api/cotacao/**").hasRole("USER")
                     .anyRequest().authenticated())
             .userDetailsService(service)

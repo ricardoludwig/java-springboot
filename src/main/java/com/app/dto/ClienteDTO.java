@@ -1,11 +1,11 @@
 package com.app.dto;
 
+import com.app.model.ClienteEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.AllArgsConstructor;
-
-import com.app.model.ClienteEntity;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,12 +19,25 @@ import java.util.Collections;
 @AllArgsConstructor
 public final class ClienteDTO implements UserDetails {
 
+    @Schema(description = "Nome do cliente", example = "Renata",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+//    @NotBlank
     private String nome;
 
+    @Schema(description = "Nome de usuário do aplicação", example = "dev_ren",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+//    @NotBlank
     private String username;
 
+    @Schema(description = "Senha do usuário do aplicação", example = "dev_@xP12r",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+//    @NotBlank
     private String password;
 
+    @Schema(description = "Email do usuário do aplicação",
+            example = "dev_re@teste.com",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+//    @NotBlank
     private String email;
 
     @Override
@@ -53,5 +66,3 @@ public final class ClienteDTO implements UserDetails {
                 .build();
     }
 }
-
-
